@@ -23,5 +23,8 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
+print("Printing entire message...")
+print(msg)
+
 # Send a UDP message (Broadcast)
 s.sendto(b'192.168.0.2', DHCP_CLIENT)
