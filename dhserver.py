@@ -2,6 +2,7 @@ from socket import *
 
 DHCP_SERVER = ('', 67)
 DHCP_CLIENT = ('255.255.255.255', 68)
+IP_POOL = list()
 
 # Create a UDP socket
 s = socket(AF_INET, SOCK_DGRAM)
@@ -13,6 +14,7 @@ s.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
 s.bind(DHCP_SERVER)
 
 # Recieve a UDP message
+print("Waiting for UDP messages...")
 msg, addr = s.recvfrom(1024)
 
 # Print the client's MAC Address from the DHCP header
@@ -22,4 +24,4 @@ for i in range(29, 34):
 print()
 
 # Send a UDP message (Broadcast)
-s.sendto(b'Hello World!', DHCP_CLIENT)
+s.sendto(b'192.168.0.2', DHCP_CLIENT)
