@@ -26,7 +26,8 @@ def ip_as_hex(ip):
 	hex_ip += bytes(hex(int(octets[1])), 'utf-8')
 	hex_ip += bytes(hex(int(octets[2])), 'utf-8')
 	hex_ip += bytes(hex(int(octets[3])), 'utf-8')
-	print("hex_ip is" + hex_ip)
+	for i in range(0, 3):
+		print(format(hex_ip[i], 'x'))
 	return hex_ip
 
 def dhcp_offer(msg, yiaddr):
