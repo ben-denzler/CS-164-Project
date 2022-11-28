@@ -82,9 +82,9 @@ for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
 	print(string)
 
-print(bytes(msg[4:8]))
+print(msg[4:7])
 print(msg[4:8])
-print(bytes(msg[28:34]))
+print(msg[28:33])
 print(msg[28:34])
 
 # Send a UDP message (Broadcast)
