@@ -104,7 +104,7 @@ print()
 
 print("Looking for free IP...")
 free_ip = find_free_ip()
-print("Sending DCP offer of address " + free_ip + "!")
+print("Sending DCP OFFER of address " + free_ip + "!")
 s.sendto(dhcp_pkt(msg, free_ip, "offer"), DHCP_CLIENT)
 print("Sending DCP ACK for address " + free_ip + "!")
 s.sendto(dhcp_pkt(msg, free_ip, "ack"), DHCP_CLIENT)
