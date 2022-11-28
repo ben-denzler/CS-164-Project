@@ -18,7 +18,7 @@ def dhcp_offer(msg):
 	pkt += b'\x01'	# Hardware type
 	pkt += b'\x06'	# Hardware address length
 	pkt += b'\x00'	# Hops
-	pkt += msg[4:8]	# XID from client discover
+	pkt += bytes(msg[4:8])	# XID from client discover
 	pkt += b'\x00\x00'	# Seconds
 	pkt += b'\x00\x00'	# Flags
 	# "No broadcast" is ignored?
@@ -47,7 +47,7 @@ def dhcp_offer(msg):
 	pkt += b'\x00'
 	pkt += b'\x00'
 
-	pkt += msg[28:34]	# Client hardware address
+	pkt += bytes(msg[28:34])	# Client hardware address
 
 	# Server name (64 bytes)
 	for i in range(64):
@@ -77,15 +77,6 @@ print("Client's MAC Address is " + format(msg[28], 'x'), end = '')
 for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
-
-print("Client XID: ")
-print(msg[4:8])
-print("Server XID: ")
-print(dhcp_offer(msg)[4:8])
-print("Client MAC: ")
-print(msg[28:34])
-print("Server MAC: ")
-print(dhcp_offer(msg)[28:34])
 
 for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
