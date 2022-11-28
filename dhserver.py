@@ -70,8 +70,6 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
-print(format(msg[4:7], 'x'))
-
 for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
 	print(string)
