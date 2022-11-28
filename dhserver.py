@@ -20,41 +20,67 @@ def dhcp_offer(msg):
 	pkt += b'\x00'	# Hops
 	pkt += bytes(msg[4:8])	# XID from client discover
 	pkt += b'\x00\x00'	# Seconds
-	pkt += b'\x00\x00'	# Flags
-	# "No broadcast" is ignored?
+	pkt += b'\x80\x00'	# Flags
 
 	# Client IP address (ciaddr), 4 bytes
-	pkt += b'\x00'
-	pkt += b'\x00'
-	pkt += b'\x00'
-	pkt += b'\x00'
+	pkt += b'\x00\x00\x00\x00'
 
 	# Your IP address (yiaddr), 4 bytes
-	pkt += b'\xc0'
-	pkt += b'\xa8'
-	pkt += b'\x00'
-	pkt += b'\x02'
+	pkt += b'\xc0\xa8\x00\x02'
 
 	# Server IP address (siaddr), 4 bytes
-	pkt += b'\x00'
-	pkt += b'\x00'
-	pkt += b'\x00'
-	pkt += b'\x00'
+	pkt += b'\x00\x00\x00\x00'
 
 	# Relay IP address (giaddr), 4 bytes
-	pkt += b'\x00'
-	pkt += b'\x00'
-	pkt += b'\x00'
-	pkt += b'\x00'
+	pkt += b'\x00\x00\x00\x00'
 
 	pkt += bytes(msg[28:34])	# Client hardware address
 
-	# Server name (64 bytes)
+	# Client hardware address padding
+	for i in range(10):
+		pkt += b'\x00'
+
+	# Server host name
 	for i in range(64):
 		pkt += b'\x00'
 
-	# File name (128 bytes)
+	# Boot file name
 	for i in range(128):
+		pkt += b'\x00'
+
+	# DHCP magic cookie
+	pkt += b'\x63\x82\x53\x63'
+
+	# Option: DHCP Message Type (Offer)
+	pkt += b'\x35\x01\x02'
+
+	# Option: DHCP Server Identifier
+	for i in range(6):
+		pkt += b'\x00'
+
+	# Option: IP Address Lease Time
+	pkt += b'\x33\x04\x00\x00\x0e\x10'
+
+	# Option: Subnet Mask (255.255.255.0 or /24)
+	pkt += b'\x01\x04\xff\xff\xff\x00'
+
+	# Option: Router
+	for i in range(6):
+		pkt += b'\x00'
+
+	# Option: Domain Name Server
+	for i in range(10):
+		pkt += b'\x00'
+
+	# Option: Domain Name
+	for i in range(14):
+		pkt += b'\x00'
+
+	# Option: End
+	pkt += b'\xff'
+
+	# Padding
+	for i in range(8):
 		pkt += b'\x00'
 
 	return pkt
@@ -79,12 +105,10 @@ for i in range(29, 34):
 print()
 
 for i, m in enumerate(msg):
-	string = "msg[" + str(i) + "] = " + msg[i]
+	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
 	print(string)
 
-print(msg[4:7])
 print(msg[4:8])
-print(msg[28:33])
 print(msg[28:34])
 
 # Send a UDP message (Broadcast)
