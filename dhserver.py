@@ -34,7 +34,7 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
-print(msg[4:7].to_bytes(4, 'big'))
+print(msg[4:7])
 
 for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
