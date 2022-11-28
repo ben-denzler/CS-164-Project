@@ -16,6 +16,7 @@ IP_POOL = [
 ]
 
 def find_free_ip():
+	global IP_POOL
 	for ip in IP_POOL:
 		if ip[1] == "Free":
 			ip[1] == "Taken"
