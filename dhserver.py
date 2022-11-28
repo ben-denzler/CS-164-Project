@@ -2,17 +2,31 @@ from socket import *
 
 DHCP_SERVER = ('', 67)
 DHCP_CLIENT = ('255.255.255.255', 68)
-IP_POOL = {
-	"192.168.0.2" : "Free",
-	"192.168.0.3" : "Free",
-	"192.168.0.4" : "Free",
-	"192.168.0.5" : "Free",
-	"192.168.0.6" : "Free",
-	"192.168.0.7" : "Free",
-	"192.168.0.8" : "Free"
-}
 
-def dhcp_offer(msg):
+IP_POOL = [
+	("192.168.0.2", "Free"),
+	("192.168.0.3", "Free"),
+	("192.168.0.4", "Free"),
+	("192.168.0.5", "Free"),
+	("192.168.0.6", "Free"),
+]
+
+def find_free_ip():
+	for ip in IP_POOL:
+		if ip[1] == "Free":
+			ip[1] == "Taken"
+			return ip[0]
+
+def ip_as_hex(ip):
+	hex_ip = b''
+	octets = ip.split('.')
+	hex_ip += bytes(hex(int(octets[0])), 'utf-8')
+	hex_ip += bytes(hex(int(octets[1])), 'utf-8')
+	hex_ip += bytes(hex(int(octets[2])), 'utf-8')
+	hex_ip += bytes(hex(int(octets[3])), 'utf-8')
+	return hex_ip
+
+def dhcp_offer(msg, yiaddr):
 	pkt = b''
 	pkt += b'\x02'				# Opcode
 	pkt += b'\x01'				# Hardware type
@@ -21,7 +35,7 @@ def dhcp_offer(msg):
 	pkt += msg[4:8]				# XID from client discover
 	pkt += b'\x00\x00'			# Seconds
 	pkt += b'\x80\x00'			# Flags
-	pkt += b'\x00\x00\x00\x00'	# Client IP address (ciaddr), 4 bytes
+	pkt += yiaddr				# Client IP address (ciaddr), 4 bytes
 	pkt += b'\xc0\xa8\x00\x02'	# Your IP address (yiaddr), 4 bytes
 	pkt += b'\x00\x00\x00\x00'	# Server IP address (siaddr), 4 bytes
 	pkt += b'\x00\x00\x00\x00'	# Relay IP address (giaddr), 4 bytes
@@ -92,5 +106,8 @@ print()
 # 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
 # 	print(string)
 
+free_ip = find_free_ip()
+free_ip_hex = ip_as_hex(free_ip)
+
 # Send a UDP message (Broadcast)
-s.sendto(dhcp_offer(msg), DHCP_CLIENT)
+s.sendto(dhcp_offer(msg, free_ip_hex), DHCP_CLIENT)
