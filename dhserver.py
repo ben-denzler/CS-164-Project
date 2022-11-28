@@ -47,7 +47,7 @@ def dhcp_offer(msg):
 	pkt += b'\x00'
 	pkt += b'\x00'
 
-	pkt += msg[28:33]	# Client hardware address
+	pkt += msg[28:34]	# Client hardware address
 
 	# Server name (64 bytes)
 	for i in range(64):
@@ -82,6 +82,10 @@ print("Client XID: ")
 print(msg[4:8])
 print("Server XID: ")
 print(dhcp_offer(msg)[4:8])
+print("Client MAC: ")
+print(msg[28:34])
+print("Server MAC: ")
+print(dhcp_offer(msg)[28:34])
 
 for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
