@@ -31,7 +31,8 @@ for i in range(29, 34):
 print()
 
 for i, m in enumerate(msg):
-	print(f"msg[{i} = {m}")
+	string = "msg[" + str(i) + "] = " + str(m)
+	print(string)
 
 # Send a UDP message (Broadcast)
 s.sendto(b'192.168.0.2', DHCP_CLIENT)
