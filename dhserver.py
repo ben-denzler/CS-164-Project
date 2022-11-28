@@ -9,7 +9,7 @@ IP_POOL = {
 	"192.168.0.5" : "Free",
 	"192.168.0.6" : "Free",
 	"192.168.0.7" : "Free",
-	"192.168.0.8" : "Free",
+	"192.168.0.8" : "Free"
 }
 
 def dhcp_offer(msg):
@@ -78,7 +78,10 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
-print(msg)
+print("Client XID: ")
+print(msg[4:7])
+print("Server XID: ")
+print(dhcp_offer(msg)[4:7])
 
 for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
