@@ -18,7 +18,7 @@ def dhcp_offer(msg):
 	pkt += b'\x01'	# Hardware type
 	pkt += b'\x06'	# Hardware address length
 	pkt += b'\x00'	# Hops
-	pkt += bytes(msg[4:8])	# XID from client discover
+	pkt += msg[4:8]	# XID from client discover
 	pkt += b'\x00\x00'	# Seconds
 	pkt += b'\x80\x00'	# Flags
 
@@ -34,7 +34,8 @@ def dhcp_offer(msg):
 	# Relay IP address (giaddr), 4 bytes
 	pkt += b'\x00\x00\x00\x00'
 
-	pkt += bytes(msg[28:34])	# Client hardware address
+	# Client hardware address
+	pkt += msg[28:34]
 
 	# Client hardware address padding
 	for i in range(10):
@@ -104,12 +105,9 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
-for i, m in enumerate(msg):
-	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
-	print(string)
-
-print(msg[4:8])
-print(msg[28:34])
+# for i, m in enumerate(msg):
+# 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
+# 	print(string)
 
 # Send a UDP message (Broadcast)
 s.sendto(dhcp_offer(msg), DHCP_CLIENT)
