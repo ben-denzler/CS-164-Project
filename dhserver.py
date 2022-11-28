@@ -2,7 +2,15 @@ from socket import *
 
 DHCP_SERVER = ('', 67)
 DHCP_CLIENT = ('255.255.255.255', 68)
-IP_POOL = list()
+IP_POOL = {
+	"192.168.0.2" : "Free",
+	"192.168.0.3" : "Free",
+	"192.168.0.4" : "Free",
+	"192.168.0.5" : "Free",
+	"192.168.0.6" : "Free",
+	"192.168.0.7" : "Free",
+	"192.168.0.8" : "Free",
+}
 
 def dhcp_offer(msg):
 	pkt = b''
@@ -70,11 +78,11 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
+print(msg)
+
 for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
 	print(string)
 
 # Send a UDP message (Broadcast)
-pkt = dhcp_offer(msg)
-print(pkt)
-s.sendto(pkt, DHCP_CLIENT)
+s.sendto(dhcp_offer(msg), DHCP_CLIENT)
