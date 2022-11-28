@@ -2,7 +2,14 @@ from socket import *
 
 DHCP_SERVER = ('', 67)
 DHCP_CLIENT = ('255.255.255.255', 68)
-IP_POOL = list()
+IP_POOL = list()	
+
+def DHCP_OFFER(ip_address):
+	pkt = b''
+	pkt += b'\x02'
+	pkt += b'\x01'
+	pkt += b'\x06'
+	pkt += b'\x00'
 
 # Create a UDP socket
 s = socket(AF_INET, SOCK_DGRAM)
@@ -23,8 +30,8 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
-print("Printing entire message...")
-print(msg)
+for i, m in enumerate(msg):
+	print(f"msg[{i} = {m}")
 
 # Send a UDP message (Broadcast)
 s.sendto(b'192.168.0.2', DHCP_CLIENT)
