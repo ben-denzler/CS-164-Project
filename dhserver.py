@@ -14,28 +14,18 @@ IP_POOL = {
 
 def dhcp_offer(msg):
 	pkt = b''
-	pkt += b'\x02'	# Opcode
-	pkt += b'\x01'	# Hardware type
-	pkt += b'\x06'	# Hardware address length
-	pkt += b'\x00'	# Hops
-	pkt += msg[4:8]	# XID from client discover
-	pkt += b'\x00\x00'	# Seconds
-	pkt += b'\x80\x00'	# Flags
-
-	# Client IP address (ciaddr), 4 bytes
-	pkt += b'\x00\x00\x00\x00'
-
-	# Your IP address (yiaddr), 4 bytes
-	pkt += b'\xc0\xa8\x00\x02'
-
-	# Server IP address (siaddr), 4 bytes
-	pkt += b'\x00\x00\x00\x00'
-
-	# Relay IP address (giaddr), 4 bytes
-	pkt += b'\x00\x00\x00\x00'
-
-	# Client hardware address
-	pkt += msg[28:34]
+	pkt += b'\x02'				# Opcode
+	pkt += b'\x01'				# Hardware type
+	pkt += b'\x06'				# Hardware address length
+	pkt += b'\x00'				# Hops
+	pkt += msg[4:8]				# XID from client discover
+	pkt += b'\x00\x00'			# Seconds
+	pkt += b'\x80\x00'			# Flags
+	pkt += b'\x00\x00\x00\x00'	# Client IP address (ciaddr), 4 bytes
+	pkt += b'\xc0\xa8\x00\x02'	# Your IP address (yiaddr), 4 bytes
+	pkt += b'\x00\x00\x00\x00'	# Server IP address (siaddr), 4 bytes
+	pkt += b'\x00\x00\x00\x00'	# Relay IP address (giaddr), 4 bytes
+	pkt += msg[28:34]			# Client hardware address
 
 	# Client hardware address padding
 	for i in range(10):
@@ -49,21 +39,15 @@ def dhcp_offer(msg):
 	for i in range(128):
 		pkt += b'\x00'
 
-	# DHCP magic cookie
-	pkt += b'\x63\x82\x53\x63'
-
-	# Option: DHCP Message Type (Offer)
-	pkt += b'\x35\x01\x02'
+	pkt += b'\x63\x82\x53\x63'	# DHCP magic cookie
+	pkt += b'\x35\x01\x02'		# Option: DHCP Message Type (Offer)
 
 	# Option: DHCP Server Identifier
 	for i in range(6):
 		pkt += b'\x00'
 
-	# Option: IP Address Lease Time
-	pkt += b'\x33\x04\x00\x00\x0e\x10'
-
-	# Option: Subnet Mask (255.255.255.0 or /24)
-	pkt += b'\x01\x04\xff\xff\xff\x00'
+	pkt += b'\x33\x04\x00\x00\x0e\x10'	# Option: IP Address Lease Time
+	pkt += b'\x01\x04\xff\xff\xff\x00'	# Option: Subnet Mask (255.255.255.0 or /24)
 
 	# Option: Router
 	for i in range(6):
@@ -77,8 +61,7 @@ def dhcp_offer(msg):
 	for i in range(14):
 		pkt += b'\x00'
 
-	# Option: End
-	pkt += b'\xff'
+	pkt += b'\xff'	# Option: End
 
 	# Padding
 	for i in range(8):
