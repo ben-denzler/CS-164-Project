@@ -34,5 +34,7 @@ for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
 	print(string)
 
+print(format(msg, 'x'))
+
 # Send a UDP message (Broadcast)
 s.sendto(b'192.168.0.2', DHCP_CLIENT)
