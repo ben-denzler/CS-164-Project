@@ -5,7 +5,8 @@ DHCP_CLIENT = ('255.255.255.255', 68)
 IP_POOL = list()
 
 def get_xid(msg):
-	return 
+	xid = msg[4:7].encode()
+	return xid
 
 def dhcp_offer(ip_address):
 	pkt = b''
@@ -33,7 +34,7 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
-print(type(msg[4]))
+print(msg[4:7].encode())
 
 for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
