@@ -4,16 +4,52 @@ DHCP_SERVER = ('', 67)
 DHCP_CLIENT = ('255.255.255.255', 68)
 IP_POOL = list()
 
-def get_xid(msg):
-	xid = msg[4:7].encode()
-	return xid
-
-def dhcp_offer(ip_address):
+def dhcp_offer(msg):
 	pkt = b''
-	pkt += b'\x02'
-	pkt += b'\x01'
-	pkt += b'\x06'
+	pkt += b'\x02'	# Opcode
+	pkt += b'\x01'	# Hardware type
+	pkt += b'\x06'	# Hardware address length
+	pkt += b'\x00'	# Hops
+	pkt += msg[4:7]	# XID from client discover
+	pkt += b'\x00\x00'	# Seconds
+	pkt += b'\x00\x00'	# Flags
+	# "No broadcast" is ignored?
+
+	# Client IP address (ciaddr), 4 bytes
 	pkt += b'\x00'
+	pkt += b'\x00'
+	pkt += b'\x00'
+	pkt += b'\x00'
+
+	# Your IP address (yiaddr), 4 bytes
+	pkt += b'\xc0'
+	pkt += b'\xa8'
+	pkt += b'\x00'
+	pkt += b'\x02'
+
+	# Server IP address (siaddr), 4 bytes
+	pkt += b'\x00'
+	pkt += b'\x00'
+	pkt += b'\x00'
+	pkt += b'\x00'
+
+	# Relay IP address (giaddr), 4 bytes
+	pkt += b'\x00'
+	pkt += b'\x00'
+	pkt += b'\x00'
+	pkt += b'\x00'
+
+	pkt += msg[28:33]	# Client hardware address
+
+	# Server name (64 bytes)
+	for i in range(64):
+		pkt += b'\x00'
+
+	# File name (128 bytes)
+	for i in range(128):
+		pkt += b'\x00'
+
+	return pkt
 
 # Create a UDP socket
 s = socket(AF_INET, SOCK_DGRAM)
@@ -41,4 +77,4 @@ for i, m in enumerate(msg):
 	print(string)
 
 # Send a UDP message (Broadcast)
-s.sendto(b'192.168.0.2', DHCP_CLIENT)
+s.sendto(dhcp_offer(msg), DHCP_CLIENT)
