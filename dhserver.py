@@ -22,8 +22,11 @@ def find_free_ip():
 def ip_as_hex(ip):
 	hex_ip = b''
 	octets = ip.split('.')
+
 	hex_ip += bytes(hex(int(octets[0])), 'utf-8')
-	print(format(bytes(hex(int(octets[0])), 'utf-8')))
+	print("bytes(hex(int(octets[0])) = " + format(bytes(hex(int(octets[0])), 'utf-8')))
+	print("hex_ip[0] = " + format(hex_ip[0], 'x'))
+
 	hex_ip += bytes(hex(int(octets[1])), 'utf-8')
 	hex_ip += bytes(hex(int(octets[2])), 'utf-8')
 	hex_ip += bytes(hex(int(octets[3])), 'utf-8')
