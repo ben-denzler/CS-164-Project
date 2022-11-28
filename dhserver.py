@@ -52,9 +52,9 @@ def dhcp_pkt(msg, yiaddr, type):
 	pkt += b'\x63\x82\x53\x63'	# DHCP magic cookie
 
 	if type == "offer":
-		pkt += b'\x35\x01\x02'		# Option: DHCP Message Type (Offer)
+		pkt += b'\x35\x01\x02'	# Option: DHCP Message Type (Offer)
 	else:
-		pkt += b'\x35\x01\x05'		# Option: DHCP Message Type (ACK)
+		pkt += b'\x35\x01\x05'	# Option: DHCP Message Type (ACK)
 
 	# Option: DHCP Server Identifier
 	for i in range(6):
