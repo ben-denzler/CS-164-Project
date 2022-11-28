@@ -98,11 +98,9 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
-# for i, m in enumerate(msg):
-# 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
-# 	print(string)
-
-# Send a UDP message (Broadcast)
+print("Looking for free IP...")
 free_ip = find_free_ip()
+print("Sending DCP offer of address " + free_ip + "!")
 s.sendto(dhcp_pkt(msg, free_ip, "offer"), DHCP_CLIENT)
+print("Sending DCP ACK for address " + free_ip + "!")
 s.sendto(dhcp_pkt(msg, free_ip, "ack"), DHCP_CLIENT)
