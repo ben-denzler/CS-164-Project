@@ -31,8 +31,8 @@ def dhcp_pkt(msg, yiaddr, type):
 	pkt += msg[4:8]					# XID from client discover
 	pkt += b'\x00\x00'				# Seconds
 	pkt += b'\x80\x00'				# Flags
-	pkt += inet_aton(yiaddr)		# Client IP address (ciaddr), 4 bytes
-	pkt += b'\xc0\xa8\x00\x02'		# Your IP address (yiaddr), 4 bytes
+	pkt += b'\x00\x00\x00\x00'		# Client IP address (ciaddr), 4 bytes
+	pkt += inet_aton(yiaddr)		# Your IP address (yiaddr), 4 bytes
 	pkt += b'\x00\x00\x00\x00'		# Server IP address (siaddr), 4 bytes
 	pkt += b'\x00\x00\x00\x00'		# Relay IP address (giaddr), 4 bytes
 	pkt += msg[28:34]				# Client hardware address
@@ -102,9 +102,13 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
+
+
 print("Looking for free IP...")
 free_ip = find_free_ip()
+
 print("Sending DCP OFFER of address " + free_ip + "!")
 s.sendto(dhcp_pkt(msg, free_ip, "offer"), DHCP_CLIENT)
+
 print("Sending DCP ACK for address " + free_ip + "!")
 s.sendto(dhcp_pkt(msg, free_ip, "ack"), DHCP_CLIENT)
