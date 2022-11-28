@@ -102,8 +102,6 @@ for i in range(29, 34):
 	print(":" + format(msg[i], 'x'), end = '')
 print()
 
-
-
 print("Looking for free IP...")
 free_ip = find_free_ip()
 
