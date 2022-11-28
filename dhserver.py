@@ -1,3 +1,4 @@
+import socket
 from socket import *
 
 DHCP_SERVER = ('', 67)
