@@ -31,7 +31,7 @@ for i in range(29, 34):
 print()
 
 for i, m in enumerate(msg):
-	string = "msg[" + str(i) + "] = " + str(m)
+	string = "msg[" + format(msg[i], 'x') + "] = " + str(m)
 	print(string)
 
 # Send a UDP message (Broadcast)
