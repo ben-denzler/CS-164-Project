@@ -13,8 +13,10 @@ IP_POOL = [
 
 def find_free_ip():
 	for ip in IP_POOL:
+		print("Looking at " + ip[0] + " which is " + ip[1])
 		if ip[1] == "Free":
 			ip[1] == "Taken"
+			print("Returning " + ip[0] + " which is " + ip[1])
 			return ip[0]
 
 def ip_as_hex(ip):
@@ -24,6 +26,7 @@ def ip_as_hex(ip):
 	hex_ip += bytes(hex(int(octets[1])), 'utf-8')
 	hex_ip += bytes(hex(int(octets[2])), 'utf-8')
 	hex_ip += bytes(hex(int(octets[3])), 'utf-8')
+	print("hex_ip is" + format(hex_ip, 'x'))
 	return hex_ip
 
 def dhcp_offer(msg, yiaddr):
