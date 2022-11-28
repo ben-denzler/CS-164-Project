@@ -19,7 +19,6 @@ def find_free_ip():
 	for ip in IP_POOL:
 		if ip[1] == "Free":
 			ip[1] == "Taken"
-			print("Returning " + ip[0] + " which is " + ip[1])
 			return ip[0]
 
 def dhcp_pkt(msg, yiaddr, type):
@@ -104,6 +103,7 @@ print()
 
 print("Looking for free IP...")
 free_ip = find_free_ip()
+print("Chose " + free_ip + " to offer to client.")
 
 print("Sending DCP OFFER of address " + free_ip + "!")
 s.sendto(dhcp_pkt(msg, free_ip, "offer"), DHCP_CLIENT)
