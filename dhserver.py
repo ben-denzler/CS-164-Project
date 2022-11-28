@@ -91,22 +91,23 @@ s.setsockopt(SOL_SOCKET, SO_BROADCAST, 1)
 # Bind socket to the well-known port reserved for DHCP servers
 s.bind(DHCP_SERVER)
 
-# Recieve a UDP message
-print("Waiting for UDP messages...")
-msg, addr = s.recvfrom(1024)
+while True:
+	# Recieve a UDP message
+	print("Waiting for UDP messages...")
+	msg, addr = s.recvfrom(1024)
 
-# Print the client's MAC Address from the DHCP header
-print("Client's MAC Address is " + format(msg[28], 'x'), end = '')
-for i in range(29, 34):
-	print(":" + format(msg[i], 'x'), end = '')
-print()
+	# Print the client's MAC Address from the DHCP header
+	print("Client's MAC Address is " + format(msg[28], 'x'), end = '')
+	for i in range(29, 34):
+		print(":" + format(msg[i], 'x'), end = '')
+	print()
 
-print("Looking for free IP...")
-free_ip = find_free_ip()
-print("Chose " + free_ip + " to offer to client.")
+	print("Looking for free IP...")
+	free_ip = find_free_ip()
+	print("Chose " + free_ip + " to offer to client.")
 
-print("Sending DCP OFFER of address " + free_ip + "!")
-s.sendto(dhcp_pkt(msg, free_ip, "offer"), DHCP_CLIENT)
+	print("Sending DCP OFFER of address " + free_ip + "!")
+	s.sendto(dhcp_pkt(msg, free_ip, "offer"), DHCP_CLIENT)
 
-print("Sending DCP ACK for address " + free_ip + "!")
-s.sendto(dhcp_pkt(msg, free_ip, "ack"), DHCP_CLIENT)
+	print("Sending DCP ACK for address " + free_ip + "!")
+	s.sendto(dhcp_pkt(msg, free_ip, "ack"), DHCP_CLIENT)
