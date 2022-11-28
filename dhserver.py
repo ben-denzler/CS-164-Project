@@ -39,6 +39,7 @@ def dhcp_offer(msg, yiaddr):
 	pkt += msg[4:8]				# XID from client discover
 	pkt += b'\x00\x00'			# Seconds
 	pkt += b'\x80\x00'			# Flags
+	# pkt += b'\xc0\xa8\x00\x02'
 	pkt += yiaddr				# Client IP address (ciaddr), 4 bytes
 	pkt += b'\xc0\xa8\x00\x02'	# Your IP address (yiaddr), 4 bytes
 	pkt += b'\x00\x00\x00\x00'	# Server IP address (siaddr), 4 bytes
