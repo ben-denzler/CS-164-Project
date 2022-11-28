@@ -19,7 +19,7 @@ def find_free_ip():
 	global IP_POOL
 	for ip in IP_POOL:
 		if ip[1] == "Free":
-			ip[1] == "Taken"
+			ip[1] = "Taken"
 			return ip[0]
 
 def dhcp_pkt(msg, yiaddr, type):
