@@ -19,40 +19,39 @@ def find_free_ip():
 			print("Returning " + ip[0] + " which is " + ip[1])
 			return ip[0]
 
-def ip_as_hex(ip):
-	hex_ip = b''
-	octets = ip.split('.')
+# def ip_as_hex(ip):
+# 	hex_ip = b''
+# 	octets = ip.split('.')
 
-	hex_ip += bytes(hex(int(octets[0])), 'utf-8')
-	print("bytes(hex(int(octets[0])) = " + format(bytes(hex(int(octets[0])), 'utf-8')))
-	print("hex_ip[0] = " + format(hex_ip[0], 'x'))
+# 	hex_ip += bytes(hex(int(octets[0])), 'utf-8')
+# 	print("bytes(hex(int(octets[0])) = " + format(bytes(hex(int(octets[0])), 'utf-8')))
+# 	print("hex_ip[0] = " + format(hex_ip[0], 'x'))
 
-	hex_ip += bytes(hex(int(octets[1])), 'utf-8')
-	hex_ip += bytes(hex(int(octets[2])), 'utf-8')
-	hex_ip += bytes(hex(int(octets[3])), 'utf-8')
+# 	hex_ip += bytes(hex(int(octets[1])), 'utf-8')
+# 	hex_ip += bytes(hex(int(octets[2])), 'utf-8')
+# 	hex_ip += bytes(hex(int(octets[3])), 'utf-8')
 
-	print("IP address in hex: ")
-	for i in range(0, 3):
-		print(format(hex_ip[i], 'x') + ' ', end = '')
-	print()
+# 	print("IP address in hex: ")
+# 	for i in range(0, 3):
+# 		print(format(hex_ip[i], 'x') + ' ', end = '')
+# 	print()
 
-	return hex_ip
+# 	return hex_ip
 
 def dhcp_offer(msg, yiaddr):
 	pkt = b''
-	pkt += b'\x02'				# Opcode
-	pkt += b'\x01'				# Hardware type
-	pkt += b'\x06'				# Hardware address length
-	pkt += b'\x00'				# Hops
-	pkt += msg[4:8]				# XID from client discover
-	pkt += b'\x00\x00'			# Seconds
-	pkt += b'\x80\x00'			# Flags
-	# pkt += b'\xc0\xa8\x00\x02'
-	pkt += yiaddr				# Client IP address (ciaddr), 4 bytes
-	pkt += b'\xc0\xa8\x00\x02'	# Your IP address (yiaddr), 4 bytes
-	pkt += b'\x00\x00\x00\x00'	# Server IP address (siaddr), 4 bytes
-	pkt += b'\x00\x00\x00\x00'	# Relay IP address (giaddr), 4 bytes
-	pkt += msg[28:34]			# Client hardware address
+	pkt += b'\x02'					# Opcode
+	pkt += b'\x01'					# Hardware type
+	pkt += b'\x06'					# Hardware address length
+	pkt += b'\x00'					# Hops
+	pkt += msg[4:8]					# XID from client discover
+	pkt += b'\x00\x00'				# Seconds
+	pkt += b'\x80\x00'				# Flags
+	pkt += socket.inet_aton(yiaddr)	# Client IP address (ciaddr), 4 bytes
+	pkt += b'\xc0\xa8\x00\x02'		# Your IP address (yiaddr), 4 bytes
+	pkt += b'\x00\x00\x00\x00'		# Server IP address (siaddr), 4 bytes
+	pkt += b'\x00\x00\x00\x00'		# Relay IP address (giaddr), 4 bytes
+	pkt += msg[28:34]				# Client hardware address
 
 	# Client hardware address padding
 	for i in range(10):
@@ -119,8 +118,6 @@ print()
 # 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
 # 	print(string)
 
-free_ip = find_free_ip()
-free_ip_hex = ip_as_hex(free_ip)
-
 # Send a UDP message (Broadcast)
-s.sendto(dhcp_offer(msg, free_ip_hex), DHCP_CLIENT)
+free_ip = find_free_ip()
+s.sendto(dhcp_offer(msg, free_ip), DHCP_CLIENT)
