@@ -18,7 +18,7 @@ def dhcp_offer(msg):
 	pkt += b'\x01'	# Hardware type
 	pkt += b'\x06'	# Hardware address length
 	pkt += b'\x00'	# Hops
-	pkt += msg[4:7]	# XID from client discover
+	pkt += msg[4:8]	# XID from client discover
 	pkt += b'\x00\x00'	# Seconds
 	pkt += b'\x00\x00'	# Flags
 	# "No broadcast" is ignored?
