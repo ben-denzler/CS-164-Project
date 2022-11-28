@@ -115,5 +115,13 @@ while True:
 	print("Sending DCP OFFER of address " + free_ip + "!")
 	s.sendto(dhcp_pkt(msg, free_ip, "offer"), DHCP_CLIENT)
 
+	# Wait for client to send DHCP REQUEST
+	msg, addr = s.recvfrom(1024)
+	if msg[254:257] == free_ip:
+		print("IP in DHCP REQUEST matches the one offered.")
+	else:
+		print("IP doesn't match the one offered.")
+		continue
+
 	print("Sending DCP ACK for address " + free_ip + "!")
 	s.sendto(dhcp_pkt(msg, free_ip, "ack"), DHCP_CLIENT)
