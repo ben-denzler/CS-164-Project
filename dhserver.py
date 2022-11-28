@@ -1,5 +1,4 @@
 import socket
-from socket import *
 
 DHCP_SERVER = ('', 67)
 DHCP_CLIENT = ('255.255.255.255', 68)
