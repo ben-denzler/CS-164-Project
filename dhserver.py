@@ -79,7 +79,7 @@ for i in range(29, 34):
 print()
 
 for i, m in enumerate(msg):
-	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
+	string = "msg[" + str(i) + "] = " + msg[i]
 	print(string)
 
 print(msg[4:7])
