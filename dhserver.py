@@ -79,9 +79,9 @@ for i in range(29, 34):
 print()
 
 print("Client XID: ")
-print(msg[4:7])
+print(msg[4:8])
 print("Server XID: ")
-print(dhcp_offer(msg)[4:7])
+print(dhcp_offer(msg)[4:8])
 
 for i, m in enumerate(msg):
 	string = "msg[" + str(i) + "] = " + format(msg[i], 'x')
