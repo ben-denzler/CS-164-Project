@@ -18,7 +18,7 @@ def find_free_ip():
 			print("Returning " + ip[0] + " which is " + ip[1])
 			return ip[0]
 
-def dhcp_offer(msg, yiaddr):
+def dhcp_pkt(msg, yiaddr, type):
 	pkt = b''
 	pkt += b'\x02'					# Opcode
 	pkt += b'\x01'					# Hardware type
@@ -46,7 +46,11 @@ def dhcp_offer(msg, yiaddr):
 		pkt += b'\x00'
 
 	pkt += b'\x63\x82\x53\x63'	# DHCP magic cookie
-	pkt += b'\x35\x01\x02'		# Option: DHCP Message Type (Offer)
+
+	if type == "offer":
+		pkt += b'\x35\x01\x02'		# Option: DHCP Message Type (Offer)
+	else:
+		pkt += b'\x35\x01\x05'		# Option: DHCP Message Type (ACK)
 
 	# Option: DHCP Server Identifier
 	for i in range(6):
@@ -100,4 +104,5 @@ print()
 
 # Send a UDP message (Broadcast)
 free_ip = find_free_ip()
-s.sendto(dhcp_offer(msg, free_ip), DHCP_CLIENT)
+s.sendto(dhcp_pkt(msg, free_ip, "offer"), DHCP_CLIENT)
+s.sendto(dhcp_pkt(msg, free_ip, "ack"), DHCP_CLIENT)
