@@ -75,4 +75,6 @@ for i, m in enumerate(msg):
 	print(string)
 
 # Send a UDP message (Broadcast)
-s.sendto(dhcp_offer(msg), DHCP_CLIENT)
+pkt = dhcp_offer(msg)
+print(pkt)
+s.sendto(pkt, DHCP_CLIENT)
